@@ -25,11 +25,17 @@ class TeamsTools {
         },
 
         start() {
-            const raiseHandButton = TeamsTools.sel.buttons.raiseHand;
             const raise = () => {
                 TeamsTools.redeclareSel();
+                const raiseHandButton = TeamsTools.sel.buttons.raiseHand;
 
-                raiseHandButton.click();
+                if (raiseHandButton) {
+                    raiseHandButton.click();
+                } else {
+                    TeamsTools.redeclareSel();
+                    console.warn(`${TeamsTools.static.prefix} Your screen resolution is too low, the hand up button is not displayed. Resize the window so that the above button is available.`);
+                }
+                
                 if (this.data.delay > 0) {
                     setTimeout(() => {
                         raise();
