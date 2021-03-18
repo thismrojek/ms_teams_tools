@@ -1,9 +1,18 @@
 class TeamsTools {
-    static sel = {
-        buttons: {
-            raiseHand: document.querySelector('#raise-hand-button'),
-            muteMicrophone: document.querySelector('#microphone-button')
-        }
+    static static = {
+        prefix: '[TEAMS TOOLS]:'
+    }
+
+    static sel;
+
+    static redeclareSel() {
+        this.sel = {
+            buttons: {
+                raiseHand: document.querySelector('#raise-hand-button'),
+                muteMicrophone: document.querySelector('#microphone-button'),
+                disconnect: document.querySelector('#hangup-button')
+            }
+        };
     };
 
     static raiseHand = {
@@ -18,6 +27,8 @@ class TeamsTools {
         start() {
             const raiseHandButton = TeamsTools.sel.buttons.raiseHand;
             const raise = () => {
+                TeamsTools.redeclareSel();
+
                 raiseHandButton.click();
                 if (this.data.delay > 0) {
                     setTimeout(() => {
@@ -38,6 +49,8 @@ class TeamsTools {
         },
 
         start(toggled = true) {
+            TeamsTools.redeclareSel();
+
             if (toggled == true) {
                 this.data.toggled = true;
             } else if (toggled == false) {
@@ -51,6 +64,8 @@ class TeamsTools {
             console.log(delayParams);
             
             const mute = () => {
+                TeamsTools.redeclareSel();
+
                 muteButton.click();
                 if (this.data.toggled) {
                     setTimeout(() => {
@@ -62,6 +77,49 @@ class TeamsTools {
 
         stop() {
             this.start(false);
+        }
+    }
+
+    static disconnect = {
+        data: {
+            desiredDate: undefined
+        },
+
+        schedule(hour = {
+            hours: new Date().getHours(),
+            minutes: new Date().getMinutes()
+        }, date = {
+            day: new Date().getDate(),
+            month: new Date().getMonth() + 1,
+            year: new Date().getFullYear()
+        }) {
+            TeamsTools.redeclareSel();
+            
+            this.data.desiredDate = new Date(`
+                ${date.month}/
+                ${date.day}/
+                ${date.year} 
+                ${hour.hours}:
+                ${hour.minutes}:
+                00
+            `)
+            TeamsTools.sel.buttons.disconnect.style['background-color'] = 'yellowgreen';
+            TeamsTools.sel.buttons.disconnect.innerHTML = '<img src="https://cdn2.iconfinder.com/data/icons/pittogrammi/142/10-512.png" style="width: 50%;filter: invert(1);height: 50%;transform: translate(50%, 50%);">';
+            console.warn(`${TeamsTools.static.prefix} Scheduled auto-disconnect for: ${this.data.desiredDate}`);
+            this.watch();
+        },
+
+        watch() {
+            const worker = setInterval(() => {
+                TeamsTools.redeclareSel();
+
+                const currentTime = new Date().getTime();
+                if (currentTime >= this.data.desiredDate.getTime()) {
+                    TeamsTools.sel.buttons.disconnect.click();
+                    console.warn(`${TeamsTools.static.prefix} You were disconnected from this meeting.`);
+                    clearInterval(worker);
+                }
+            }, 1000);
         }
     }
 }
