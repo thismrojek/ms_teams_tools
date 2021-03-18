@@ -32,3 +32,26 @@ The method does not take any parameters.
 TeamsTools.lagMicrophone.stop()
 ```
 The method does not take any parameters.
+
+### disconnect
+#### schedule
+```javascript
+TeamsTools.disconnect.schedule(hour, date)
+```
+Where *hour* is an object, which contains information about the time when the disconnect from the call should occur.
+Here is an example, for 11:24:
+```javascript
+hour = {
+    hours: 11,
+    minutes: 24
+}
+```
+Where *date* is an object, which contains information about the date (date, month, year) when the disconnect from the call should occur.
+Here is an example, for 29th March 2002:
+```javascript
+date = {
+    day: 29,
+    month: 03,
+    year: 2002
+}
+```
