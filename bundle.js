@@ -94,19 +94,23 @@ class TeamsTools {
             year: new Date().getFullYear()
         }) {
             TeamsTools.redeclareSel();
-            
-            this.data.desiredDate = new Date(`
-                ${date.month}/
-                ${date.day}/
-                ${date.year} 
-                ${hour.hours}:
-                ${hour.minutes}:
-                00
-            `)
-            TeamsTools.sel.buttons.disconnect.style['background-color'] = 'yellowgreen';
-            TeamsTools.sel.buttons.disconnect.innerHTML = '<img src="https://cdn2.iconfinder.com/data/icons/pittogrammi/142/10-512.png" style="width: 50%;filter: invert(1);height: 50%;transform: translate(50%, 50%);">';
-            console.warn(`${TeamsTools.static.prefix} Scheduled auto-disconnect for: ${this.data.desiredDate}`);
-            this.watch();
+
+            if (TeamsTools.sel.buttons.disconnect) {
+                this.data.desiredDate = new Date(`
+                    ${date.month}/
+                    ${date.day}/
+                    ${date.year} 
+                    ${hour.hours}:
+                    ${hour.minutes}:
+                    00
+                `)
+                TeamsTools.sel.buttons.disconnect.style['background-color'] = 'yellowgreen';
+                TeamsTools.sel.buttons.disconnect.innerHTML = '<img src="https://cdn2.iconfinder.com/data/icons/pittogrammi/142/10-512.png" style="width: 50%;filter: invert(1);height: 50%;transform: translate(50%, 50%);">';
+                console.warn(`${TeamsTools.static.prefix} Scheduled auto-disconnect for: ${this.data.desiredDate}`);
+                this.watch();
+            } else {
+                console.warn(`${TeamsTools.static.prefix} You are not currently in a meeting. You must be in a call to schedule an automatic disconnect.`);
+            }
         },
 
         watch() {
