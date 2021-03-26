@@ -1,0 +1,38 @@
+body {
+    width: 96vw;
+}
+
+main {
+    padding: .5rem 1rem;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header img {
+    height: 30px;
+    margin-right: .5rem;
+}
+
+.functions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.function-icon {
+    height: 45px;
+    width: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-right: .4rem;
+}
+
+.function-icon img {
+    height: 40px;
+}

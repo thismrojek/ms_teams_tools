@@ -21,6 +21,5 @@
   "browser_action": {
     "default_title": "Teams Tools",
     "default_popup": "./html/manager.html"
-  },
-  "action": {}
+  }
 }
