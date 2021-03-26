@@ -130,12 +130,17 @@ class TeamsTools {
                 TeamsTools.sel.buttons.disconnect.innerHTML = '<img src="https://cdn2.iconfinder.com/data/icons/pittogrammi/142/10-512.png" style="width: 50%;filter: invert(1);height: 50%;transform: translate(50%, 50%);">';
                 console.warn(`${TeamsTools.static.prefix} Scheduled auto-disconnect for: ${this.data.desiredDate}`);
                 TeamsTools.watchTime(this.data.desiredDate.getTime(), () => {
-                    TeamsTools.sel.buttons.disconnect.click();
+                    this.now();
                     console.warn(`${TeamsTools.static.prefix} You were disconnected from this meeting.`);
                 })
             } else {
                 console.warn(`${TeamsTools.static.prefix} You are not currently in a meeting. You must be in a call to schedule an automatic disconnect.`);
             }
+        },
+
+        now() {
+            TeamsTools.redeclareSel();
+            TeamsTools.sel.buttons.disconnect.click();
         }
     }
 
@@ -147,3 +152,5 @@ class TeamsTools {
         }
     }
 }
+
+window[teamsCLI] = new TeamsTools();

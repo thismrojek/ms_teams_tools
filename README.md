@@ -35,6 +35,12 @@ TeamsTools.lagMicrophone.stop()
 The method does not take any parameters.
 
 ### disconnect
+This is a group of methods that allows you to disconnect from a meeting at a designated time.
+#### now
+```javascript
+TeamsTools.disconnect.now()
+```
+The method does not take any parameters.
 #### schedule
 ```javascript
 TeamsTools.disconnect.schedule(hour, date)
@@ -58,6 +64,7 @@ date = {
 ```
 
 ### chat
+This is a group of methods that allows you to perform chat-related operations, such as sending messages.
 #### send
 ```javascript
 TeamsTools.chat.send(content)

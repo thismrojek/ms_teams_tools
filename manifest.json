@@ -1,0 +1,26 @@
+{
+  "name": "Teams Tools",
+  "version": "1.0",
+  "manifest_version": 2,
+  "background": {
+    "service_worker": "./scripts/background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://teams.microsoft.com/*"
+      ],
+      "js": [
+        "./scripts/bundle.js"
+      ]
+    }
+  ],
+  "icons": {
+    "128": "./assets/128.png"
+  },
+  "browser_action": {
+    "default_title": "Teams Tools",
+    "default_popup": "./html/manager.html"
+  },
+  "action": {}
+}
