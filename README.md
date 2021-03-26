@@ -1,4 +1,5 @@
 # Tools for Microsoft Teams
+Here is an API refrence for this project.
 
 ## Available methods
 
@@ -55,3 +56,10 @@ date = {
     year: 2002
 }
 ```
+
+### chat
+#### send
+```javascript
+TeamsTools.chat.send(content)
+```
+Where *content* is a string, which defines your sending message.

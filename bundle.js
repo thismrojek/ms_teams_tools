@@ -8,12 +8,28 @@ class TeamsTools {
     static redeclareSel() {
         this.sel = {
             buttons: {
-                raiseHand: document.querySelector('#raise-hand-button'),
+                disconnect: document.querySelector('#hangup-button'),
                 muteMicrophone: document.querySelector('#microphone-button'),
-                disconnect: document.querySelector('#hangup-button')
+                raiseHand: document.querySelector('#raise-hand-button'),
+                sendMessage: document.querySelector('#send-message-button')
+            },
+            textareas: {
+                chatMessage: document.querySelector('.cke_wysiwyg_div div')
             }
         };
     };
+
+    static watchTime(time, callback, interval = 1000) {
+        const worker = setInterval(() => {
+            TeamsTools.redeclareSel();
+
+            const currentTime = new Date().getTime();
+            if (currentTime >= time) {
+                callback();
+                clearInterval(worker);
+            }
+        }, interval);
+    }
 
     static raiseHand = {
         data: {
@@ -113,23 +129,21 @@ class TeamsTools {
                 TeamsTools.sel.buttons.disconnect.style['background-color'] = 'yellowgreen';
                 TeamsTools.sel.buttons.disconnect.innerHTML = '<img src="https://cdn2.iconfinder.com/data/icons/pittogrammi/142/10-512.png" style="width: 50%;filter: invert(1);height: 50%;transform: translate(50%, 50%);">';
                 console.warn(`${TeamsTools.static.prefix} Scheduled auto-disconnect for: ${this.data.desiredDate}`);
-                this.watch();
+                TeamsTools.watchTime(this.data.desiredDate.getTime(), () => {
+                    TeamsTools.sel.buttons.disconnect.click();
+                    console.warn(`${TeamsTools.static.prefix} You were disconnected from this meeting.`);
+                })
             } else {
                 console.warn(`${TeamsTools.static.prefix} You are not currently in a meeting. You must be in a call to schedule an automatic disconnect.`);
             }
-        },
+        }
+    }
 
-        watch() {
-            const worker = setInterval(() => {
-                TeamsTools.redeclareSel();
-
-                const currentTime = new Date().getTime();
-                if (currentTime >= this.data.desiredDate.getTime()) {
-                    TeamsTools.sel.buttons.disconnect.click();
-                    console.warn(`${TeamsTools.static.prefix} You were disconnected from this meeting.`);
-                    clearInterval(worker);
-                }
-            }, 1000);
+    static chat = {
+        send(content) {
+            TeamsTools.redeclareSel();
+            TeamsTools.sel.textareas.chatMessage.textContent = content;
+            TeamsTools.sel.buttons.sendMessage.click();
         }
     }
 }
